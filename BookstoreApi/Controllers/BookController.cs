@@ -25,18 +25,28 @@ namespace BookstoreApi.Controllers
 
         // POST api/<BookController>
         [HttpPost("Create")]
-        public IActionResult Create(Book book,IFormFile file)
+        public IActionResult Create(Book book, IFormFile file)
         {
             ModelState.Remove(nameof(file));
             if (ModelState.IsValid)
             {
-                unitOfWork.BookRepository.CreateWithImage(book,file,"Book Covers",nameof(Book.BookCoverImg));
+                unitOfWork.BookRepository.CreateWithImage(book, file, "Book Covers", nameof(Book.BookCoverImg));
                 unitOfWork.Complete();
                 return Ok();
             }
             return BadRequest();
         }
 
+        [HttpGet("Edit")]
+        public IActionResult Edit(int bookId)
+        {
+            var book = unitOfWork.BookRepository.GetOne(where: a => a.Id == bookId);
+            if (book != null)
+            {
+                return Ok(book);
+            }
+            return NotFound();
+        }
 
         // PUT api/<BookController>/5
         [HttpPut("Edit")]
@@ -45,8 +55,8 @@ namespace BookstoreApi.Controllers
             ModelState.Remove(nameof(file));
             if (ModelState.IsValid)
             {
-                var oldBook = unitOfWork.BookRepository.GetOne(where: b=>b.Id ==book.Id , tracked:false);
-                unitOfWork.BookRepository.UpdateImage(book,file,oldBook.BookCoverImg, "Book Covers" , nameof(Book.BookCoverImg));
+                var oldBook = unitOfWork.BookRepository.GetOne(where: b => b.Id == book.Id, tracked: false);
+                unitOfWork.BookRepository.UpdateImage(book, file, oldBook.BookCoverImg, "Book Covers", nameof(Book.BookCoverImg));
                 unitOfWork.Complete();
                 return Ok();
             }
@@ -66,6 +76,6 @@ namespace BookstoreApi.Controllers
             }
             return BadRequest();
         }
-        
+
     }
 }

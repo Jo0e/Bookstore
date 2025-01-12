@@ -20,6 +20,7 @@ namespace DataAccess.UnitOfWork
         IMessageRepository MessageRepository { get; }
         IPaymentRecordRepository PaymentRecordRepository { get; }
         IWishlistRepository WishlistRepository { get; }
+        IUserRepository UserRepository { get; }
         int Complete();
         Task CompleteAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();

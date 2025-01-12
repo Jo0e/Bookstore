@@ -27,6 +27,7 @@ namespace DataAccess.UnitOfWork
             MessageRepository = new MessageRepository(_context);
             PaymentRecordRepository = new PaymentRecordRepository(_context);
             WishlistRepository = new WishlistRepository(_context);
+            UserRepository = new UserRepository(_context);
             
         }
 
@@ -49,6 +50,7 @@ namespace DataAccess.UnitOfWork
         public IPaymentRecordRepository PaymentRecordRepository { get; private set; }
 
         public IWishlistRepository WishlistRepository { get; private set; }
+        public IUserRepository UserRepository { get; private set; }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {

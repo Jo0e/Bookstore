@@ -13,8 +13,10 @@ namespace Utilities.Profiles
     {
         public UserProfile()
         {
-            CreateMap<ApplicationUserDTO, ApplicationUser>()
+            CreateMap<ApplicationUserDTO, ApplicationUser>().ReverseMap()
                 .ForMember(dest => dest.Id, option => option.Ignore());
+
+            CreateMap<ApplicationUser, ApplicationUser>();
         }
     }
 }

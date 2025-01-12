@@ -60,6 +60,7 @@ namespace BookstoreApi.Controllers
                     PhoneNumber = "1234567890",
                 }, "Admin123*");
                 var admin = await userManager.FindByEmailAsync("admin@api.com");
+                await userManager.AddToRoleAsync(admin, SD.AdminRole);
                 unitOfWork.CartRepository.Create(new Cart { UserId = admin.Id });
                 unitOfWork.Complete();
             }

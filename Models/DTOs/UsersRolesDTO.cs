@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Repository.IRepository
+namespace Models.DTOs
 {
-    public interface IContactUsRepository : IRepository<ContactUs>
+    public class UsersRolesDTO
     {
-        ContactUs ContactDetail(int reqId);
+        public ApplicationUser User { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

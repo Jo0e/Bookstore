@@ -48,6 +48,18 @@ namespace BookstoreApi.Controllers
             return BadRequest();
         }
 
+
+        [HttpGet("Edit")]
+        public IActionResult Edit(int categoryId)
+        {
+            var category = unitOfWork.CategoryRepository.GetOne(where: a => a.Id == categoryId);
+            if (category != null)
+            {
+                return Ok(category);
+            }
+            return NotFound();
+        }
+
         // PUT: api/Categories/5
         [HttpPut("Edit")]
         public IActionResult Edit(Category category)

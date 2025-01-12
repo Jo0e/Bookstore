@@ -27,19 +27,29 @@ namespace BookstoreApi.Controllers
             return NoContent();
         }
 
-
         // POST api/<AuthorController>
         [HttpPost("Create")]
-        public IActionResult Create(Author author , IFormFile file)
+        public IActionResult Create(Author author, IFormFile file)
         {
             ModelState.Remove(nameof(file));
             if (ModelState.IsValid)
             {
-                unitOfWork.AuthorRepository.CreateWithImage(author,file,"Profiles" ,nameof(Author.ProfilePhoto));
+                unitOfWork.AuthorRepository.CreateWithImage(author, file, "Profiles", nameof(Author.ProfilePhoto));
                 unitOfWork.Complete();
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpGet("Edit")]
+        public IActionResult Edit(int authorId)
+        {
+            var author = unitOfWork.AuthorRepository.GetOne(where: a => a.Id == authorId);
+            if (author != null)
+            {
+                return Ok(author);
+            }
+            return NotFound();
         }
 
         // PUT api/<AuthorController>/5
@@ -49,8 +59,8 @@ namespace BookstoreApi.Controllers
             ModelState.Remove(nameof(file));
             if (ModelState.IsValid)
             {
-                var oldAuthor = unitOfWork.AuthorRepository.GetOne(where: a=>a.Id==author.Id);
-                unitOfWork.AuthorRepository.UpdateImage(author,file,oldAuthor.ProfilePhoto, "Profiles", nameof(Author.ProfilePhoto));
+                var oldAuthor = unitOfWork.AuthorRepository.GetOne(where: a => a.Id == author.Id);
+                unitOfWork.AuthorRepository.UpdateImage(author, file, oldAuthor.ProfilePhoto, "Profiles", nameof(Author.ProfilePhoto));
                 unitOfWork.Complete();
                 return Ok();
             }
@@ -64,7 +74,7 @@ namespace BookstoreApi.Controllers
             var author = unitOfWork.AuthorRepository.GetOne(where: b => b.Id == authorId);
             if (author != null)
             {
-                unitOfWork.AuthorRepository.DeleteWithImage(author, "Profiles" , nameof(Author.ProfilePhoto));
+                unitOfWork.AuthorRepository.DeleteWithImage(author, "Profiles", nameof(Author.ProfilePhoto));
                 unitOfWork.Complete();
                 return Ok();
             }
